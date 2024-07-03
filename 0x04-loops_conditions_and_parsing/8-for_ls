@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Lists the current directory contents; part of it
+for i in *-*; do
+        echo "${i#*-}"
+done
