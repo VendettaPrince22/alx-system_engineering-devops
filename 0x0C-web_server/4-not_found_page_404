@@ -7,8 +7,7 @@ mkdir -p /var/www/html/
 chmod -R 755 /var/www
 echo "Hello World!" > /var/www/html/index.html
 
-echo "Ceci n'est pas une page" > 404.html
-mv 404.html /var/www/html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 SERVER_CONFIG=\
 "server {
         listen 80 default_server;
