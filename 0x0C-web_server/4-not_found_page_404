@@ -1,29 +1,16 @@
 #!/usr/bin/env bash
-# 404 page error
-apt-get update
+# Installs, configures and start server
+
+apt-get -y update
 apt-get -y install nginx
 ufw allow 'Nginx HTTP'
-mkdir -p /var/www/html/
-chmod -R 755 /var/www
 echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
 
-echo "Ceci n'est pas une page" > /var/www/html/404.html
-SERVER_CONFIG=\
-"server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-        server_name _;
+sed -i "s/location \//location \/redirect_me/" /etc/nginx/sites-enabled/default
+sed -i "s/try_files \$uri \$uri\/ =404;/return 301 https:\/\/www.youtube.com/watch?v=QH2-TGU1wu4;/" /etc/nginx/sites-enabled/default
 
-        location /redirect_me {
-                return 301 https://www.youtube.com/watch?v=QH2-TGUIwu4;
-        }
+SERVER="error_page 404 /custom_404.html;\nlocation = /custom_404.html { root /var/www/html; internal; }"
+sed -i "/location \/redirect_me/i $SERVER" /etc/nginx/sites-enabled/default
 
-        error_page 404 /404.html;
-        location = /404.html {
-                root /var/www/html;
-                internal;
-        }
-}" > /etc/nginx/sites-available/default
-systemctl reload nginx.service
+service nginx start
