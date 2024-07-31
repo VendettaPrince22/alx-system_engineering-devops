@@ -13,5 +13,4 @@ sed -i "s/try_files \$uri \$uri\/ =404;/return 301 https:\/\/www.youtube.com/wat
 SERVER="error_page 404 /custom_404.html;\nlocation = /custom_404.html { root /var/www/html; internal; }"
 sed -i "/location \/redirect_me/i $SERVER" /etc/nginx/sites-enabled/default
 
-service nginx start
-service nginx restart
+systemctl restart nginx
