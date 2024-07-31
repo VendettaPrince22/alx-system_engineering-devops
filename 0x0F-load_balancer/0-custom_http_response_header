@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Configure nginx with custom header
+# Configure new nginx server with custom header
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
 HEADER="add_header X-Served-By $HOSTNAME;"
 sed -i "/sendfile on;/a $HEADER" /etc/nginx/nginx.conf
 service nginx restart
