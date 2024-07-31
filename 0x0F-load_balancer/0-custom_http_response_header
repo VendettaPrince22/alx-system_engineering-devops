@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Configure nginx with custom header
+HEADER="add_header X-Served-By $HOSTNAME;"
+sed -i "/sendfile on;/a $HEADER" /etc/nginx/nginx.conf
+service nginx restart
